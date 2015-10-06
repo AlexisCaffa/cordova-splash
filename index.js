@@ -4,6 +4,7 @@ var ig     = require('imagemagick');
 var colors = require('colors');
 var _      = require('underscore');
 var Q      = require('q');
+var path   = require('path');
 
 
 /**
@@ -13,13 +14,14 @@ var Q      = require('q');
  * @return {Promise} resolves with an array of platforms
  */
 var getPlatforms = function (projectName) {
+    projectName = projectName ? projectName : '';
     var deferred = Q.defer();
     var platforms = [];
     platforms.push({
         name : 'ios',
         // TODO: use async fs.exists
-        isAdded : fs.existsSync('platforms/ios'),
-        splashPath : 'platforms/ios/' + projectName + '/Resources/splash/',
+        isAdded : fs.existsSync(path.resolve('platforms', 'ios')),
+        splashPath : path.resolve('platforms', 'ios', projectName, 'Resources', 'splash'),
         splash : [
             { name : 'Default-568h@2x~iphone',    width : 640,  height : 1136 },
             { name : 'Default-667h',              width : 750,  height : 1334 },
@@ -35,17 +37,17 @@ var getPlatforms = function (projectName) {
     });
     platforms.push({
         name : 'android',
-        isAdded : fs.existsSync('platforms/android'),
-        splashPath : 'platforms/android/res/',
+        isAdded : fs.existsSync(path.resolve('platforms', 'android')),
+        splashPath : path.resolve('platforms', 'android', 'res'),
         splash : [
-            { name : 'drawable-land-ldpi/screen',  width : 320, height: 200 },
-            { name : 'drawable-land-mdpi/screen',  width : 480, height: 320 },
-            { name : 'drawable-land-hdpi/screen',  width : 800, height: 480 },
-            { name : 'drawable-land-xhdpi/screen', width : 1280, height: 720 },
-            { name : 'drawable-port-ldpi/screen',  width : 200, height: 320 },
-            { name : 'drawable-port-mdpi/screen',  width : 320, height: 480 },
-            { name : 'drawable-port-hdpi/screen',  width : 480, height: 800 },
-            { name : 'drawable-port-xhdpi/screen', width : 720, height: 1280 },
+            { name : path.join('drawable-land-ldpi', 'screen'),  width : 320, height: 200 },
+            { name : path.join('drawable-land-mdpi', 'screen'),  width : 480, height: 320 },
+            { name : path.join('drawable-land-hdpi', 'screen'),  width : 800, height: 480 },
+            { name : path.join('drawable-land-xhdpi', 'screen'), width : 1280, height: 720 },
+            { name : path.join('drawable-port-ldpi', 'screen'),  width : 200, height: 320 },
+            { name : path.join('drawable-port-mdpi', 'screen'),  width : 320, height: 480 },
+            { name : path.join('drawable-port-hdpi', 'screen'),  width : 480, height: 800 },
+            { name : path.join('drawable-port-xhdpi', 'screen'), width : 720, height: 1280 },
         ]
     });
     // TODO: add all platforms
@@ -118,7 +120,7 @@ var getProjectName = function () {
 var generateSplash = function (platform, splash) {
     var deferred = Q.defer();
 
-    var fileToDelete = platform.splashPath + splash.name + '.png';
+    var fileToDelete = path.resolve(platform.splashPath, splash.name +'.png');
     if (fs.existsSync(fileToDelete)) {
         display.error(fileToDelete + ' will be deleted.');
         fs.unlinkSync(fileToDelete);
@@ -132,7 +134,7 @@ var generateSplash = function (platform, splash) {
         '+swap',
         '-gravity', 'center',
         '-composite',
-        platform.splashPath + splash.name +'.jpg'
+        path.resolve(platform.splashPath, splash.name +'.jpg')
     ] , function(err, stdout, stderr){
         if (err) {
             deferred.reject(err);

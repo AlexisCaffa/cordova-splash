@@ -12,19 +12,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/AlexDisler/cordova-splash.git"
+    "url": "git://github.com/AlexisCaffa/cordova-splash.git"
   },
   "keywords": [
     "cordova",
     "splash",
     "crop"
   ],
-  "author": "Alex Disler",
+  "author": "Alex Disler - Alexis Caffa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AlexDisler/cordova-splash/issues"
+    "url": "https://github.com/AlexisCaffa/cordova-splash/issues"
   },
-  "homepage": "https://github.com/AlexDisler/cordova-splash",
+  "homepage": "https://github.com/AlexisCaffa/cordova-splash",
   "dependencies": {
     "imagemagick": "^0.1.3",
     "underscore": "^1.6.0",
