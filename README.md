@@ -4,7 +4,7 @@ Automatic splash screen generator for Cordova. Create a splash screen (2208x2208
 
 ### Installation
 
-     $ sudo npm install cordova-splash -g
+     $ sudo npm -g i https://github.com/AlexisCaffa/cordova-splash.git 
 
 ### Usage
 
