@@ -10,9 +10,10 @@ Automatic splash screen generator for Cordova. Create a splash screen (2208x2208
 
 Create a ```icon.png``` file in the root folder of your cordova project and run:
 
-     $ cordova-splash [ <hexcolor> ]
+     $ cordova-splash [ <hexcolor> ] [ <splash_base.file> ]
      
      <hexcolor>                    - Hexadecimal color format. Default: FFFFFF
+     <splash_base.file>            - Splash base file. Default: icon.png
 
 
 ### Requirements

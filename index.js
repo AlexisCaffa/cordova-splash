@@ -58,11 +58,12 @@ var getPlatforms = function (projectName) {
 
 /**
  * @var {Object} settings - names of the config file and of the splash image
- * TODO: add option to get these values as CLI params
+ * TODO: add option to get these values as CLI params better.
  */
 var settings = {};
 settings.CONFIG_FILE = 'config.xml';
-settings.SPLASH_FILE   = 'icon.png';
+settings.SPLASH_FILE = process.argv.slice(2)[1] || 'icon.png';
+settings.BACKGORUND_COLOR = process.argv.slice(2)[0] || 'FFFFFF';
 
 /**
  * @var {Object} console utils
