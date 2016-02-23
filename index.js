@@ -14,14 +14,14 @@ var path   = require('path');
  * @return {Promise} resolves with an array of platforms
  */
 var getPlatforms = function (projectName) {
-    projectName = projectName ? projectName : '';
+    projectName = projectName || '';
     var deferred = Q.defer();
     var platforms = [];
     platforms.push({
         name : 'ios',
         // TODO: use async fs.exists
         isAdded : fs.existsSync(path.resolve('platforms', 'ios')),
-        splashPath : path.resolve('platforms', 'ios', projectName, 'Resources', 'splash'),
+        splashPath : path.resolve('platforms', 'ios', projectName, 'Images.xcassets', 'LaunchImage.launchimage'),
         splash : [
             { name : 'Default-568h@2x~iphone',    width : 640,  height : 1136 },
             { name : 'Default-667h',              width : 750,  height : 1334 },
@@ -50,7 +50,16 @@ var getPlatforms = function (projectName) {
             { name : path.join('drawable-port-xhdpi', 'screen'), width : 720, height: 1280 },
         ]
     });
-    // TODO: add all platforms
+    platforms.push({
+        name : 'windows',
+        isAdded : fs.existsSync(path.resolve('platforms', 'windows')),
+        splashPath : path.resolve('platforms', 'windows', 'images'),
+        splash : [
+            { name : 'SplashScreen.scale-100',      width : 620,  height: 300  },
+            { name : 'SplashScreenPhone.scale-240', width : 1152, height: 1920 }
+        ]
+    });
+    // TODO: add missing platforms
     deferred.resolve(platforms);
     return deferred.promise;
 };
@@ -63,7 +72,7 @@ var getPlatforms = function (projectName) {
 var settings = {};
 settings.CONFIG_FILE = 'config.xml';
 settings.SPLASH_FILE = process.argv.slice(2)[1] || 'icon.png';
-settings.BACKGORUND_COLOR = process.argv.slice(2)[0] || 'FFFFFF';
+settings.BACKGROUND_COLOR = process.argv.slice(2)[0] || 'FFFFFF';
 
 /**
  * @var {Object} console utils
@@ -83,10 +92,6 @@ display.header = function (str) {
     console.log('');
 };
 
-/*process.argv.forEach(function (val, index, array) {
-    console.log(index + ': ' + val);
-});*/
-var backgroundColor = process.argv.slice(2)[0] || 'FFFFFF';
 
 /**
  * read the config file and get the project name
@@ -131,11 +136,11 @@ var generateSplash = function (platform, splash) {
         settings.SPLASH_FILE,
         '-resize', splash.width +'x'+ splash.height +'>',
         '-size', splash.width +'x'+ splash.height,
-        'xc:#'+ backgroundColor,
+        'xc:#'+ settings.BACKGROUND_COLOR,
         '+swap',
         '-gravity', 'center',
         '-composite',
-        path.resolve(platform.splashPath, splash.name +'.jpg')
+        path.resolve(platform.splashPath, splash.name +'.png')
     ] , function(err, stdout, stderr){
         if (err) {
             deferred.reject(err);
@@ -147,10 +152,9 @@ var generateSplash = function (platform, splash) {
 
     /*ig.crop({
         srcPath: settings.SPLASH_FILE,
-        srcFormat: 'png',
-        dstPath: platform.splashPath + splash.name + '.jpg',
+        dstPath: platform.splashPath + splash.name,
         quality: 1,
-        format: 'jpg',
+        format: 'png',
         width: splash.width,
         height: splash.height,
     } , function(err, stdout, stderr){
