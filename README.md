@@ -6,30 +6,29 @@ Automatic splash screen generator for Cordova. Create a splash screen (2208x2208
 
      $ sudo npm -g i https://github.com/AlexisCaffa/cordova-splash.git 
 
-### Usage
-
-Create a ```icon.png``` file in the root folder of your cordova project and run:
-
-     $ cordova-splash [ <hexcolor> ] [ <splash_base.file> ]
-     
-     <hexcolor>                    - Hexadecimal color format. Default: FFFFFF
-     <splash_base.file>            - Splash base file. Default: icon.png
-
-
 ### Requirements
 
-- ImageMagick
+- ImageMagick installed (*Mac*: `brew install imagemagick`, *Debian/Ubuntu*: `sudo apt-get install imagemagick`, *Windows*: [See here](http://www.imagemagick.org/script/binary-releases.php#windows))
+- At least one platform was added to your project ([cordova platforms docs](http://cordova.apache.org/docs/en/edge/guide_platforms_index.md.html#Platform%20Guides))
+- Cordova's config.xml file must exist in the root folder ([cordova config.xml docs](http://cordova.apache.org/docs/en/edge/config_ref_index.md.html#The%20config.xml%20File))
 
-Install on a Mac:
+### Usage
 
-     $ brew install imagemagick
-     
-Install on Linux:
+Create a `splash.png` file in the root folder of your cordova project and run:
 
-     $ sudo apt-get install imagemagick
+    $ cordova-splash
 
-- At least one platform was added to your project ([cordova platforms docs](http://cordova.apache.org/docs/en/3.4.0/guide_platforms_index.md.html#Platform%20Guides))
-- Cordova's config.xml file must exist in the root folder ([cordova config.xml docs](http://cordova.apache.org/docs/en/3.4.0/config_ref_index.md.html#The%20config.xml%20File))
+You also can specify manually a location for your `config.xml` or `splash.png`:
+
+    $ cordova-splash --config=config.xml --splash=splash.png
+
+If you run a old version of Cordova for iOS and you need your files in `/Resources/icons/`, use this option:
+
+    $ cordova-splash --xcode-old
+
+### Icons
+
+Check out [cordova-icon](https://github.com/AlexDisler/cordova-icon)
 
 ### License
 
